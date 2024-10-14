@@ -114,7 +114,7 @@ export async function processWorker(
       await new Promise((resolve) => setTimeout(resolve, 5_000));
     }
 
-    const { analyzeId } = inMemoryStore.state;
+    const { analyzeId, tabId } = inMemoryStore.state;
 
     console.log('TODO: change status of analysis and clean up');
     await finishAnalysis(analyzeId);
@@ -134,6 +134,14 @@ export async function processWorker(
     await chrome.tabs.create({
       url: `${optionsUrl}?analyzeId=${analyzeId}`,
     });
+
+    if (tabId) {
+      try {
+        await chrome.tabs.remove(tabId);
+      } catch (e) {
+        // ...
+      }
+    }
 
     return;
   }
