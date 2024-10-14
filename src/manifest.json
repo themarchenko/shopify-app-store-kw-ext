@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Keyword Analyzer",
+  "description": "A chrome extension that analyze keywords of Shopify App Store",
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-34.png"
+  },
+  "chrome_url_overrides": {},
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "host_permissions": [
+    "https://apps.shopify.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://apps.shopify.com/*"
+      ],
+      "js": [
+        "contentScript.bundle.js"
+      ],
+      "css": [
+        "content.styles.css"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content.styles.css",
+        "icon-128.png",
+        "icon-34.png"
+      ],
+      "matches": []
+    }
+  ]
+}
