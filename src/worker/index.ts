@@ -6,11 +6,7 @@ import {
   SearchForCompetitorsResult,
   StartKeyWordsAnalysis,
 } from '../actions/types';
-import {
-  createAnalysis,
-  finishAnalysis,
-  updateAnalysis,
-} from '../lib/client/keywords';
+import { createAnalysis, updateAnalysis } from '../lib/client/keywords';
 
 function getInitialState() {
   return {
@@ -76,7 +72,7 @@ export async function processWorker(
 
       // save analysisID, so later we can work with it
       inMemoryStore.state.analyzeId = await createAnalysis({
-        searchTerm,
+        searchPhrase: searchTerm,
         appUrl,
         keywords,
       });
@@ -90,10 +86,12 @@ export async function processWorker(
 
     // save competitor data
     await updateAnalysis(inMemoryStore.state.analyzeId, {
-      competitor: {
-        appUrl,
-        keywords,
-      },
+      competitors: [
+        {
+          competitorUrl: appUrl,
+          keywords,
+        },
+      ],
     });
 
     return;
@@ -115,9 +113,6 @@ export async function processWorker(
     }
 
     const { analyzeId, tabId } = inMemoryStore.state;
-
-    console.log('TODO: change status of analysis and clean up');
-    await finishAnalysis(analyzeId);
 
     await chrome.runtime.sendMessage({
       type: CrawlerStages.Complete,

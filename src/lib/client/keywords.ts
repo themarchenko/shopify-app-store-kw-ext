@@ -1,35 +1,83 @@
+import { API_URL } from '../config';
+
+// Define payload structures
 export interface CreateAnalysisPayload {
   appUrl: string;
-  searchTerm: string;
+  searchPhrase: string;
   keywords: string[];
 }
 
 export interface CompetitorPayload {
-  appUrl: string;
+  competitorUrl: string;
   keywords: string[];
 }
 
 export interface UpdateAnalysisPayload {
-  competitor: CompetitorPayload;
+  competitors: CompetitorPayload[];
 }
 
+// Utility function for handling API requests
+async function fetchWithHandling(url: string, options: RequestInit) {
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error(`API Error: ${response.status} - ${error.message}`);
+      throw new Error(error.message || 'API request failed');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error(`Request failed: ${(error as any).message}`);
+    throw error;
+  }
+}
+
+// Create a new analysis
 export async function createAnalysis(payload: CreateAnalysisPayload) {
-  console.log('TODO: [createAnalysis]', { payload });
+  try {
+    const response = await fetchWithHandling(`${API_URL}/keyword-analysis`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+      },
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
 
-  return 'uiiid-1212-2-1-21-212';
+    console.log('Analysis created successfully:', response);
+    return response.id;
+  } catch (error) {
+    console.error('Failed to create analysis:', error);
+    throw error;
+  }
 }
 
+// Update an existing analysis with competitor data
 export async function updateAnalysis(
   id: string,
   payload: UpdateAnalysisPayload
 ) {
-  console.log('TODO: [updateAnalysis]', { id, payload });
+  try {
+    const response = await fetchWithHandling(
+      `${API_URL}/keyword-analysis/${id}`,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }
+    );
 
-  return true;
-}
-
-export async function finishAnalysis(id: string) {
-  console.log('TODO: [finishAnalysis]', { id });
-
-  return true;
+    console.log('Analysis updated successfully:', response);
+    return true;
+  } catch (error) {
+    console.error('Failed to update analysis:', error);
+    throw error;
+  }
 }
