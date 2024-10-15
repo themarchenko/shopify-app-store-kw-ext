@@ -89,7 +89,7 @@ export const SearchForm: FC = () => {
           required
           key={field.key}
           placeholder={field.placeholder}
-          value={formState[field.key]}
+          value={formState[field.key] as string}
           onChange={handleInputChange(field.key)}
         />
       ))}

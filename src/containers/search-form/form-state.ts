@@ -1,8 +1,8 @@
 import type { StartKeyWordsAnalysis } from '../../actions/types';
 
 export const initialState: StartKeyWordsAnalysis = {
-  appUrl: 'https://apps.shopify.com/sesami',
-  searchTerm: 'booking',
+  appUrl: '',
+  searchTerm: '',
 };
 
 export type FieldKey = keyof typeof initialState;

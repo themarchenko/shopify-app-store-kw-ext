@@ -1,0 +1,48 @@
+.reportContainer {
+    font-size: 16px;
+    padding: 45px 80px;
+}
+
+.reportContainer h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.reportContainer h3 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.reportContainer .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 300px;
+}
+
+.reportContainer .error {
+    padding: 25px;
+    color: red;
+}
+
+.reportContainer .report {
+    margin: 20px 0;
+}
+
+.reportContainer .keywords {
+    margin: 20px 0;
+}
+
+.reportContainer .keywords > span {
+    margin: 5px 10px;
+}
+
+
