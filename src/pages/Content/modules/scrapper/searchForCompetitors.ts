@@ -21,9 +21,7 @@ export async function searchForCompetitors({ type }: { type: CrawlerStages }) {
       });
 
     // get only unique links
-    const links = Array.from(new Set(allLinks))
-      // added this just for debugging purposes
-      .slice(0, 2);
+    const links = Array.from(new Set(allLinks));
     // Send the scraped data back to the background process
     chrome.runtime
       .sendMessage({ type, data: { links } as SearchForCompetitorsResult })
