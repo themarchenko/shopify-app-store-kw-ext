@@ -101,25 +101,24 @@ export async function processWorker(
     const { links } = message.data as SearchForCompetitorsResult;
 
     for (const link of links) {
-      console.log('runScrapeProcess for: ', link);
+      try {
+        console.log('runScrapeProcess for: ', link);
 
-      await runScrapeProcess({
-        appUrl: link,
-        tabId: inMemoryStore.state.tabId,
-      });
+        await runScrapeProcess({
+          appUrl: link,
+          tabId: inMemoryStore.state.tabId,
+        });
 
-      // add slight delay
-      await new Promise((resolve) => setTimeout(resolve, 5_000));
+        // add slight delay
+        await new Promise((resolve) =>
+          setTimeout(resolve, (5 + Math.floor(Math.random() * 10)) * 1000)
+        );
+      } catch (e) {
+        console.error('runScrapeProcess error: ', e);
+      }
     }
 
     const { analyzeId, tabId } = inMemoryStore.state;
-
-    await chrome.runtime.sendMessage({
-      type: CrawlerStages.Complete,
-      data: {
-        analyzeId,
-      },
-    });
 
     cleanState();
 

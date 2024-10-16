@@ -4,5 +4,4 @@ export enum CrawlerStages {
   CompetitorsParseUrl = 'CompetitorsParseUrl',
   Status = 'Status',
   AskStatus = 'AskStatus',
-  Complete = 'Complete',
 }
